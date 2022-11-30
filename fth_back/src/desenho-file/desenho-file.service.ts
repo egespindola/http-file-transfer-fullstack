@@ -12,17 +12,12 @@ export class DesenhoFileService {
     private readonly desenhoFileRepository: Repository<DesenhoFileEntity>,
   ){}
 
-  async insert(filename: string, originalname: string){
-    const response = await this.desenhoFileRepository
-      .createQueryBuilder()
-      .insert()
-      // .into(DesenhoFileEntity)
-      .values([
-          { filename: filename , originalname: originalname},
-      ])
-      .execute()
+  // async insert(filename: string, originalname: string){
+  async insert(createDesenhoDto: CreateDesenhoDto): Promise<any>{
+    const desenhoFile = this.desenhoFileRepository.create(createDesenhoDto)
+    const response = await this.desenhoFileRepository.save(desenhoFile)
 
-      return response
+    return response
 
   }
 

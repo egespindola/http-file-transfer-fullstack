@@ -5,7 +5,7 @@ import { getConnection, getRepository, Repository } from 'typeorm';
 import * as fs from 'fs';
 import { readdir } from 'node:fs/promises';
 import { mkdirSync} from 'fs-extra'
-// import { CreateDesenhoDto } from 'src/desenho-file/dto/create-desenho.dto'
+import { CreateDesenhoDto } from 'src/desenho-file/dto/create-desenho.dto'
 // import { DesenhoFileEntity } from 'src/entities/desenho-file.entity'
 import { DesenhoFileService } from './../desenho-file/desenho-file.service'
 
@@ -16,14 +16,15 @@ export class FileService {
   ){}
 
    /* upload 1 file */
-  async uploadFile(file: Express.Multer.File){
+  async uploadFile(file: CreateDesenhoDto){
     console.log('\x1b[36m%s\x1b[0m', '>>>>>>>>>>>>>>>>>>>>>>>>>  inside ulpoadFile fn'); 
     const filename = file.filename
     const originalname = file.originalname
     console.log(`filename: ${filename}`)
     console.log(`originalname: ${originalname}`)
 
-    this.desenhoFileService.insert(filename,originalname)
+    // this.desenhoFileService.insert(filename,originalname)
+    this.desenhoFileService.insert(file)
 
     return file
   }
@@ -36,7 +37,8 @@ export class FileService {
 
     files.forEach(file => {
       console.log(file)
-      this.desenhoFileService.insert(file.filename, file.originalname)
+      // this.desenhoFileService.insert(file.filename, file.originalname)
+      this.desenhoFileService.insert(files)
     });
     // return response;
     return files
